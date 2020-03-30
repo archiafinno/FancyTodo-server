@@ -81,7 +81,7 @@
 * **Error Response:**
 
   * **Code:** 400 VALIDATION ERROR <br />
-    **Content:** `{ msg : "error on date" }`
+    **Content:** `{ msg : "Error on Validation" }`
 
   OR
 
@@ -133,7 +133,7 @@
   OR
 
   * **Code:** 400 VALIDATION ERROR <br />
-    **Content:** `{ msg : "error on date" }`
+    **Content:** `{ msg : "Error on Validation" }`
   
   OR
 
