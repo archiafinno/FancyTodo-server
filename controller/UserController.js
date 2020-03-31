@@ -3,7 +3,7 @@ const {generateToken} = require('../helper/jwt.js')
 const {decryptPassword} = require('../helper/bcrypt.js')
 
 class UserController {
-    static read(req, res){
+    static read(req, res, next){
         models.User.findAll()
         .then(result => {
             res.status(200).json({
@@ -11,16 +11,17 @@ class UserController {
             })
         })
         .catch(err => {
-            res.status(500).json(err)
+            return next(err)
         })
     }
 
-    static register(req, res) {
+    static register(req, res, next) {
         const {email, password} = req.body
         const newAccount = {email, password}
         models.User.create(newAccount)
         .then(result => {
             const payload = {
+                id: result.id,
                 email: result.email
             }
             // let tes = `eyJhbGciOiJIUzI1NiJ9.YXJjaGlhZmlubm9AZ21haWwuY29t.j_HWqJS9PFWtvpdNMDwyoqt1EpPbE3kbprVaZE2mwVg`
@@ -33,17 +34,11 @@ class UserController {
             })
         })
         .catch(err => {
-            if (err.name == 'SequelizeValidationError') {
-                res.status(404).json({
-                    msg: err.errors[0].message
-                })
-            } else {
-                res.status(500).json(err)
-            }
+            return next(err)
         })
     }
 
-    static login(req, res) {
+    static login(req, res, next) {
         const {email, password} = req.body
         const data = {email, password}
         models.User.findOne({where: {email : email}})
@@ -51,27 +46,32 @@ class UserController {
             if (result) {
                 let compare = decryptPassword(password, result.password)
                 if (compare) {
-                    let payload = {email}
+                    let payload = {
+                        id: result.id,
+                        email
+                    }
+                    // console.log(payload)
                     let token = generateToken(payload)
                     res.status(200).json({
+                        id: result.id,
                         email: email,
                         access_token: token
                     })
                 } else {
-                    res.status(404).json({
-                        type: `Bad request`,
-                        msg: `Invalid email/password`
+                    return next({
+                        name: `BadRequest`,
+                        errors: [{message : `Invalid email/password`}]
                     })
                 }
             } else {
-                res.status(404).json({
-                    type: `Bad request`,
-                    msg: `Invalid email/password`
+                return next({
+                    name: `BadRequest`,
+                    errors: [{message : `Invalid email/password`}]
                 })
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            return next(err)
         })
     }
 }

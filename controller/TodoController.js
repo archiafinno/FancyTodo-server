@@ -2,14 +2,14 @@ const models = require('../models')
 
 class TodoController {
     static findAll(req, res) {
-        models.Todo.findAll({order: [['id', 'ASC']]})
+        models.Todo.findAll({order: [['id', 'ASC']], where: {UserId: req.loggedUserId}})
         .then(result => {
             res.status(200).json({
                 Todos: result
             })
         })
         .catch(err => {
-            res.status(500).json(err)
+            return next(err)
         })
     }
 
@@ -19,6 +19,7 @@ class TodoController {
             description: req.body.description,
             status: req.body.status,
             due_date: req.body.due_date,
+            UserId: req.loggedUserId
         })
         .then(result => {
             res.status(201).json({
@@ -27,11 +28,8 @@ class TodoController {
             })
         })
         .catch(err => {
-            if(err.name == 'SequelizeValidationError') {
-                res.status(400).json({msg: err.errors[0].message})
-            } else {
-                res.status(500).json(err)
-            }
+            console.log(err)
+            return next(err)
         })
     }
 
@@ -45,53 +43,26 @@ class TodoController {
         }, {where: {id: param} })
         .then(result => {
             console.log(result)
-            if (result[0] !== 0) {
-                res.status(201).json({
-                    message: `successfully updated a todo in todos list`,
-                    Todo: result
-                })
-            } else {
-                res.status(404).json({
-                    msg: `data not found`,
-                })
-            }
-
+            res.status(201).json({
+                message: `successfully updated a todo in todos list`,
+                Todo: result
+            })
         })
         .catch(err => {
-            if(err.name == 'SequelizeValidationError') {
-                res.status(400).json({msg: err.errors[0].message})
-            } else {
-                res.status(500).json(err)
-            }
+            return next(err)
         })
     }
 
     static delete(req, res) {
         let param = req.params.id
-        let data;
-        models.Todo.findByPk(param)
+        models.Todo.destroy({where: {id: param}})
         .then(result => {
-            // console.log(`result findByPK`)
-            // console.log(result)
-            data = result
-            return models.Todo.destroy({where: {id: param}})
-        })
-        .then(result => {
-            // console.log(`result destroy`)
-            // console.log(result)
-            if (result) {
-                res.status(201).json({   
-                    message: `successfully deleted a todo from todos list`,
-                    Todo: data
-                })
-            } else {
-                res.status(404).json({
-                    msg: `data not found` 
-                })
-            }
+            res.status(200).json({   
+                message: `successfully deleted a todo from todos list`,
+            })
         })
         .catch(err => {
-            res.status(500).json(err)
+            return next(err)
         })
     }
 
@@ -99,18 +70,12 @@ class TodoController {
         let param = req.params.id
         models.Todo.findByPk(param)
         .then(result => {
-            if (result) {
-                res.status(201).json({
-                    Todo: result
-                })
-            } else {
-                res.status(404).json({
-                    msg: `not found`
-                })
-            }
+            res.status(201).json({
+                Todo: result
+            })
         })
         .catch(err => {
-            res.status(500).json(err)
+            return next(err)
         })
     }
 }

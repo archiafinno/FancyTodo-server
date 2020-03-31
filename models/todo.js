@@ -14,20 +14,22 @@ module.exports = (sequelize, DataTypes) => {
           if(this.due_date < new Date()) {
             throw new Error(`Error on Validation`)
           }
-        },
-        checkEmpty() {
-          if (this.title == '' || this.description == '' || this.status == '' || this.due_date == '' ) {
-            throw new Error(`Error on Validation`)
-          }
         }
+        // checkEmpty() {
+        //   if (this.title == '' || this.description == '' || this.status == '' || this.due_date == '' ) {
+        //     throw new Error(`Error on Validation`)
+        //   }
+        // }
       }
-    }
+    },
+    UserId: DataTypes.INTEGER
   },{
     sequelize,
     modelName: 'Todo'
   })
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User, {foreignKey: 'UserId'})
   };
   return Todo;
 };
