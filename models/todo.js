@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         checkDueDate () {
           if(this.due_date < new Date()) {
-            throw new Error(`Error on Validation`)
+            throw new Error(`only allow date after current date`)
           }
         }
         // checkEmpty() {

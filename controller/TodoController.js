@@ -1,7 +1,8 @@
 const models = require('../models')
+const axios = require('axios')
 
 class TodoController {
-    static findAll(req, res) {
+    static findAll(req, res, next) {
         models.Todo.findAll({order: [['id', 'ASC']], where: {UserId: req.loggedUserId}})
         .then(result => {
             res.status(200).json({
@@ -13,7 +14,7 @@ class TodoController {
         })
     }
 
-    static create(req, res) {
+    static create(req, res, next) {
         models.Todo.create({
             title: req.body.title,
             description: req.body.description,
@@ -28,12 +29,12 @@ class TodoController {
             })
         })
         .catch(err => {
-            console.log(err)
+            // console.log(err)
             return next(err)
         })
     }
 
-    static update(req, res) {
+    static update(req, res, next) {
         let param = req.params.id
         models.Todo.update({
             title: req.body.title,
@@ -53,7 +54,7 @@ class TodoController {
         })
     }
 
-    static delete(req, res) {
+    static delete(req, res, next) {
         let param = req.params.id
         models.Todo.destroy({where: {id: param}})
         .then(result => {
@@ -66,18 +67,30 @@ class TodoController {
         })
     }
 
-    static find(req, res) {
+    static find(req, res, next) {
         let param = req.params.id
+        let movie;
+        let todo;
         models.Todo.findByPk(param)
         .then(result => {
-            res.status(201).json({
-                Todo: result
+            movie = result.description
+            todo = result
+            console.log(movie)
+            console.log(process.env.apikey)
+            return axios.get(`http://www.omdbapi.com/?apikey=${process.env.apikey}&s=${movie}`)
+        })
+        .then(result => {
+            console.log(result.data)
+            res.status(200).json({
+                Todo: todo,
+                Movie_Description: result.data.Search[0]
             })
         })
         .catch(err => {
             return next(err)
         })
     }
+
 }
 
 module.exports = TodoController

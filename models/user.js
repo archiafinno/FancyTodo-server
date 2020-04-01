@@ -14,6 +14,14 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: {
           args: true,
           msg: `your email format is wrong`
+        },
+        isUnique(){
+          return User.findOne({where:{email:this.email}})
+          .then(email=>{
+            if(email){
+              throw new Error(`email must unique`)
+            }
+          })
         }
       }
     },
