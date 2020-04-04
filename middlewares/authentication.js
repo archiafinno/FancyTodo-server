@@ -1,30 +1,37 @@
-const {decodeToken} = require('../helper/jwt')
+const { decodeToken } = require('../helper/jwt')
 const models = require('../models')
 
 const authentication = (req, res, next) => {
     try {
-        let decode = decodeToken(req.headers.access_token)
+        let decode = decodeToken(req.headers.token)
         console.log(decode)
-        models.User.findOne({where: {id: decode.id}})
-        .then(result => {
-            if(result) {
-                req.loggedUserId = result.id
-                next()
-            }else{
-                return next({
-                    name: `NotFound`,
-                    errors: [{message: `User not found` }]
-                })
-            }
-        })
-        .catch(err => {
-            return next({
-                name: `Unauthenticated`,
-                errors: [{message: `User unauthenticated` }]
+        return models.User.findOne({ where: { id: decode.id } })
+            .then(result => {
+                if (result) {
+                    req.loggedUserId = result.id
+                    return next()
+                } else {
+                    return next({
+                        name: `NotFound`,
+                        errors: [{ message: `User not found` }]
+                    })
+                }
             })
-        })
-    } catch(err) {
-        return next(err)
+            .catch(err => {
+                return next({
+                    name: `Unauthenticated`,
+                    errors: [{ message: `User unauthenticated` }]
+                })
+            })
+    } catch (err) {
+        if (err.name !== `InternalServerError`) {
+            return next(err)
+        } else {
+            return next({
+                name: `InternalServerError`,
+                errors: [{ message: `InternalServerError` }]
+            })
+        }
     }
 }
 

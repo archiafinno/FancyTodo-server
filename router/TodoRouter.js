@@ -9,6 +9,7 @@ router.post('/', TodoController.create)
 
 router.get('/:id', authorization, TodoController.find)
 router.put('/:id', authorization, TodoController.update)
+router.patch('/:id', authorization, TodoController.updateOne)
 router.delete('/:id', authorization, TodoController.delete)
 
 module.exports = router
