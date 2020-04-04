@@ -186,7 +186,7 @@
   `GET`
 
 * **Headers :**
-  token=["dsfhksdafljkashfjkshfihadsjk.sdfhasjfhdsjkfhjladshflaf.sjhfjashfjskahfkjdashfkjlas"]
+  token=[STRING]
   
 *  **URL Params**
 
@@ -202,7 +202,7 @@
         {
             "id": 43,
             "title": "harry potter",
-            "description": "di rumah aja",
+            "description": "in Gandaria City 21Cineplex with college friends",
             "status": false,
             "due_date": "2020-05-04",
             "UserId": 2,
@@ -212,7 +212,7 @@
         {
             "id": 45,
             "title": "godzilla",
-            "description": "aaa",
+            "description": "with ana, nina, and dinda",
             "status": false,
             "due_date": "2020-05-04",
             "UserId": 2,
@@ -237,9 +237,9 @@
 
 
 
-  **Create Todo**
+**Create a todo**
 ----
-  Create a todo.
+  Create a new todo.
 
 * **URL**
 
@@ -250,7 +250,7 @@
   `POST`
 
   * **Headers :**
-  token=["dsfhksdafljkashfjkshfihadsjk.sdfhasjfhdsjkfhjladshflaf.sjhfjashfjskahfkjdashfkjlas"]
+  token=[STRING]
   
 *  **URL Params**
 
@@ -266,7 +266,7 @@
     "Todo": {
         "id": 3,
         "title": "godzilla",
-        "description": "in Gandaria City 21Cineplex with college friends",
+        "description": "with ambar, jidan, and rani at jidan's house. don't forget to bring popcorn!",
         "status": false,
         "due_date": "2021-03-01",
         "updatedAt": "2020-03-30T15:45:23.985Z",
@@ -301,7 +301,7 @@
 
 
 
-    **Update Todo**
+**Update a todo**
 ----
   Update a todo.
 
@@ -314,7 +314,7 @@
   `PUT`
 
 * **Headers :**
-  token=["dsfhksdafljkashfjkshfihadsjk.sdfhasjfhdsjkfhjladshflaf.sjhfjashfjskahfkjdashfkjlas"]
+  token=[STRING]
   
 *  **URL Params**
 
@@ -330,7 +330,7 @@
     "Todo": {
         "id": 3,
         "title": "harry potter",
-        "description": "in Gandaria City 21Cineplex with college friends",
+        "description": "with my college friends in nina's house",
         "status": false,
         "due_date": "2021-03-01",
         "updatedAt": "2020-03-30T15:45:23.985Z",
@@ -381,7 +381,7 @@
 
 
 
-      **DELETE Todo**
+ **DELETE Todo**     
 ----
   Delete a todo.
 
@@ -394,7 +394,7 @@
   `DELETE`
 
 * **Headers :**
-  token=["dsfhksdafljkashfjkshfihadsjk.sdfhasjfhdsjkfhjladshflaf.sjhfjashfjskahfkjdashfkjlas"]
+  token=[STRING]
   
 *  **URL Params**
 
@@ -443,7 +443,7 @@
 
 
 
-        **FIND Todo BY ID**
+ **FIND Todo BY ID**      
 ----
   find Todo by id.
 
@@ -456,7 +456,7 @@
   `GET`
 
 * **Headers :**
-  token=["dsfhksdafljkashfjkshfihadsjk.sdfhasjfhdsjkfhjladshflaf.sjhfjashfjskahfkjdashfkjlas"]
+  token=[STRING]
   
 *  **URL Params**
 
