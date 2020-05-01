@@ -23,14 +23,6 @@ const authorization = (req, res, next) => {
         })
         .catch(err => {
             return next(err)
-                // if (err.name !== `InternalServerError`) {
-                //     return next(err)
-                // } else {
-                //     return next({
-                //         name: `InternalServerError`,
-                //         errors: [{ message: `InternalServerError` }]
-                //     })
-                // }
         })
 }
 

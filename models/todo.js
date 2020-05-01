@@ -5,35 +5,54 @@ module.exports = (sequelize, DataTypes) => {
     class Todo extends sequelize.Sequelize.Model {}
 
     Todo.init({
-        title: DataTypes.STRING,
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    args: true,
+                    msg: "title is required"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "title is required"
+                }
+
+            }
+        },
         description: {
             type: DataTypes.STRING,
+            allowNull: false,
             validate: {
-                checkMovie() {
-                    axios.get(`http://www.omdbapi.com/?apikey=${process.env.apikey}&s=${this.description}`)
-                        .then(result => {
-                            console.log(result.data.Response)
-                            if (result.data.Response == "False") {
-                                throw new Error('there is no movie with this name')
-                            }
-                        })
+                notNull: {
+                    args: true,
+                    msg: "description is required"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "description is required"
                 }
+
             }
         },
         status: DataTypes.BOOLEAN,
         due_date: {
             type: DataTypes.DATE,
+            allowNull: false,
             validate: {
                 checkDueDate() {
                     if (this.due_date < new Date()) {
                         throw new Error(`only allow date after current date`)
                     }
+                },
+                notNull: {
+                    args: true,
+                    msg: "due date is required"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "due date is required"
                 }
-                // checkEmpty() {
-                //   if (this.title == '' || this.description == '' || this.status == '' || this.due_date == '' ) {
-                //     throw new Error(`Error on Validation`)
-                //   }
-                // }
             }
         },
         UserId: DataTypes.INTEGER

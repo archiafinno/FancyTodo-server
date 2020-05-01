@@ -24,14 +24,7 @@ const authentication = (req, res, next) => {
                 })
             })
     } catch (err) {
-        if (err.name !== `InternalServerError`) {
-            return next(err)
-        } else {
-            return next({
-                name: `InternalServerError`,
-                errors: [{ message: `InternalServerError` }]
-            })
-        }
+        return next(err)
     }
 }
 

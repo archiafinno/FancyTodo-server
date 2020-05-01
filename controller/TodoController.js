@@ -17,14 +17,7 @@ class TodoController {
                 })
             })
             .catch(err => {
-                if (err.name !== `InternalServerError`) {
-                    return next(err)
-                } else {
-                    return next({
-                        name: `InternalServerError`,
-                        errors: [{ message: `InternalServerError` }]
-                    })
-                }
+                return next(err)
             })
     }
 
@@ -56,14 +49,7 @@ class TodoController {
                 })
             })
             .catch(err => {
-                if (err.name !== `InternalServerError`) {
-                    return next(err)
-                } else {
-                    return next({
-                        name: `InternalServerError`,
-                        errors: [{ message: `InternalServerError` }]
-                    })
-                }
+                return next(err)
             })
     }
 
@@ -90,19 +76,12 @@ class TodoController {
             .then(result => {
                 console.log(result)
                 return res.status(201).json({
-                    message: `successfully updated a todo in todos list`,
+                    message: `successfully updated your todo`,
                     Todo: result
                 })
             })
             .catch(err => {
-                if (err.name !== `InternalServerError`) {
-                    return next(err)
-                } else {
-                    return next({
-                        name: `InternalServerError`,
-                        errors: [{ message: `InternalServerError` }]
-                    })
-                }
+                return next(err)
             })
     }
 
@@ -115,14 +94,7 @@ class TodoController {
                 })
             })
             .catch(err => {
-                if (err.name !== `InternalServerError`) {
-                    return next(err)
-                } else {
-                    return next({
-                        name: `InternalServerError`,
-                        errors: [{ message: `InternalServerError` }]
-                    })
-                }
+                return next(err)
             })
     }
 
@@ -146,14 +118,7 @@ class TodoController {
                 })
             })
             .catch(err => {
-                if (err.name !== `InternalServerError`) {
-                    return next(err)
-                } else {
-                    return next({
-                        name: `InternalServerError`,
-                        errors: [{ message: `InternalServerError` }]
-                    })
-                }
+                return next(err)
             })
     }
 
@@ -166,39 +131,10 @@ class TodoController {
                 return res.status(201).json(updateData)
             })
             .catch(err => {
-                if (err.name !== `InternalServerError`) {
-                    return next(err)
-                } else {
-                    return next({
-                        name: `InternalServerError`,
-                        errors: [{ message: `InternalServerError` }]
-                    })
-                }
+                return next(err)
             })
     }
 
 }
 
 module.exports = TodoController
-
-// let i = 0;
-// let count = setInterval(function() {
-//     if (i < result.length) {
-//         let data = getMovieByTitle(result[i].dataValues.title)
-//             .then(response => {
-//                 result[i].dataValues.Movie_Description = response
-//                 console.log(`ini result title:`, result[i].dataValues.title)
-//                 console.log(`ini Moviedesc:`, result[i].dataValues.Movie_Description)
-//                 console.log(`ini result[i]:`, result[i].dataValues)
-//                 console.log(`==== done ====`)
-//                 arr.push(result[i])
-//             })
-//         i++
-//     } else {
-//         clearInterval(count)
-//         console.log(`aaaaaaa`)
-//         return res.status(200).json({
-//             Todos: arr
-//         })
-//     }
-// }, 3000);
